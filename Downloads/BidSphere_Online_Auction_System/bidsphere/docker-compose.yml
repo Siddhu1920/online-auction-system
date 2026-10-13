@@ -1,0 +1,21 @@
+services:
+  mysql:
+    image: mysql:8.4
+    container_name: bidsphere-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: bidsphere
+      MYSQL_USER: bidsphere
+      MYSQL_PASSWORD: change-me
+      MYSQL_ROOT_PASSWORD: local-root-change-me
+    ports:
+      - "3306:3306"
+    volumes:
+      - bidsphere_mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-pchange-me"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+volumes:
+  bidsphere_mysql_data:
